@@ -1,0 +1,75 @@
+[{
+    "_id": "660233df4dfd42f9a9e85909",
+    "gkprogramArea": "History",
+    "gkprogramSubject": "World War II",
+    "gkprogramAddress": "222 Maple Lane",
+    "gkprogramStartTime": "2024-03-28T11:00:00.000+00:00",
+    "gkprogramEndTime": "2024-03-28T13:00:00.000+00:00",
+    "gkprogramPrice": 30,
+    "gkprogramStudentCapacity": "10",
+    "gkprogramHomeTution": false,
+    "gkuser": "65fb96e5c734627eaf02ede2"
+  },
+    {
+        "_id": "660233d84dfd42f9a9e85906",
+        "gkprogramArea": "Arts",
+        "gkprogramSubject": "Drawing",
+        "gkprogramAddress": "101 Pine Street",
+        "gkprogramStartTime": "2024-03-27T13:00:00.000+00:00",
+        "gkprogramEndTime": "2024-03-27T15:00:00.000+00:00",
+        "gkprogramPrice": 25,
+        "gkprogramStudentCapacity": "15",
+        "gkprogramHomeTution": true,
+        "gkuser": "65fb96e5c734627eaf02ede2",
+        "__v": 0
+    }, {
+        "_id": "660233e64dfd42f9a9e8590c",
+        "gkprogramArea": "Computer Science",
+        "gkprogramSubject": "Programming",
+        "gkprogramAddress": "333 Cedar Street",
+        "gkprogramStartTime": "2024-03-29T10:00:00.000+00:00",
+        "gkprogramEndTime": "2024-03-29T12:00:00.000+00:00",
+        "gkprogramPrice": 45,
+        "gkprogramStudentCapacity": "10",
+        "gkprogramHomeTution": true,
+        "gkuser": "65fb96e5c734627eaf02ede2",
+        "__v": 0
+      },{
+        "_id": "660233df4dfd42f9a9e85909",
+        "gkprogramArea": "History",
+        "gkprogramSubject": "World War II",
+        "gkprogramAddress": "222 Maple Lane",
+        "gkprogramStartTime": "2024-03-28T11:00:00.000+00:00",
+        "gkprogramEndTime": "2024-03-28T13:00:00.000+00:00",
+        "gkprogramPrice": 30,
+        "gkprogramStudentCapacity": "10",
+        "gkprogramHomeTution": false,
+        "gkuser": "65fb96e5c734627eaf02ede2"
+      },
+        {
+            "_id": "660233d84dfd42f9a9e85906",
+            "gkprogramArea": "Arts",
+            "gkprogramSubject": "Drawing",
+            "gkprogramAddress": "101 Pine Street",
+            "gkprogramStartTime": "2024-03-27T13:00:00.000+00:00",
+            "gkprogramEndTime": "2024-03-27T15:00:00.000+00:00",
+            "gkprogramPrice": 25,
+            "gkprogramStudentCapacity": "15",
+            "gkprogramHomeTution": true,
+            "gkuser": "65fb96e5c734627eaf02ede2",
+            "__v": 0
+        }, {
+            "_id": "660233e64dfd42f9a9e8590c",
+            "gkprogramArea": "Computer Science",
+            "gkprogramSubject": "Programming",
+            "gkprogramAddress": "333 Cedar Street",
+            "gkprogramStartTime": "2024-03-29T10:00:00.000+00:00",
+            "gkprogramEndTime": "2024-03-29T12:00:00.000+00:00",
+            "gkprogramPrice": 45,
+            "gkprogramStudentCapacity": "10",
+            "gkprogramHomeTution": true,
+            "gkuser": "65fb96e5c734627eaf02ede2",
+            "__v": 0
+          }
+]
+  
