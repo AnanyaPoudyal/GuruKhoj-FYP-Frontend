@@ -4,6 +4,7 @@ import FormContainer from "../Shared/Form/FormContainer";
 import Input from "../Shared/Form/Input";
 import Error from "../Shared/Error";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import baseURL from "../../assets/common/baseUrl";
 
 const Login = (props) => {
@@ -21,10 +22,15 @@ const Login = (props) => {
           password: password,
         })
         .then((response) => {
-          const token = response.data.token; // Assuming the token is returned in the response
+          if(response.status == 200) {
+            AsyncStorage.setItem("AccessToken", response.data.token)
+            props.navigation.navigate("Home")
+          }
+          //const token = response.data.token; // Assuming the token is returned in the response
           // You can store the token in AsyncStorage or some other local storage mechanism
           // Redirect to the authenticated screen or perform any other actions
-          console.log("Login successful. Token:", token);
+          //await AsyncStorage.setItem('@auth', JSON.stringify(token));
+         // console.log("Login successful. Token:", token);
         })
         .catch((error) => {
           setError("Invalid email or password");
@@ -32,12 +38,16 @@ const Login = (props) => {
         });
     }
   };
-
+  //temp function to check lsd
+  const getLocalStrorageDate =  async () => {
+    let data = await AsyncStorage.getItem('@auth')
+    console.log('Local Storage ========>> ', data)
+  }
+  getLocalStrorageDate();
   return (
     <FormContainer >
       <Image source={require('../../assets/login.png')} style={styles.img} />
       <Input
-        style={styles.input}
         placeholder={"Enter Email"}
         name={"email"}
         id={"email"}
@@ -45,7 +55,6 @@ const Login = (props) => {
         onChangeText={(text) => setEmail(text.toLowerCase())}
       />
       <Input
-        style={styles.input}
         placeholder={"Enter Password"}
         name={"password"}
         id={"password"}

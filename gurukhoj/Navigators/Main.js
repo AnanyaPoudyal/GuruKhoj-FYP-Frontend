@@ -7,6 +7,8 @@ const Tab = createBottomTabNavigator();
 //Stack
 import HomeNavigator from "./HomeNavigator";
 import UserNavigator from "./UserNavigator";
+import SearchScreen from "../Screens/User/SearchScreen";
+import UserScreen from "../Screens/User/UserContainer";
 
 const Main = () => {
     return (
@@ -27,7 +29,8 @@ const Main = () => {
                         color={color}
                         size={30}
                         />
-                    )
+                    ),
+                    headerShown: false
                 }}
             />
             <Tab.Screen
@@ -41,12 +44,13 @@ const Main = () => {
                         color={color}
                         size={30}
                         />
-                    )
+                    ),
+                    headerShown: false
                 }}
             />  
             <Tab.Screen
                 name="Profile"
-                component={HomeNavigator}
+                component={SearchScreen}
                 options={{
                     tabBarIcon: ({ color }) => (
                         <Icon
@@ -55,12 +59,13 @@ const Main = () => {
                         color={color}
                         size={30}
                         />
-                    )
+                    ),
+                    headerShown: false
                 }}
             />  
             <Tab.Screen
                 name="User"
-                component={UserNavigator}
+                component={UserScreen}
                 options={{
                     tabBarIcon: ({ color }) => (
                         <Icon
@@ -69,7 +74,8 @@ const Main = () => {
                         color={color}
                         size={30}
                         />
-                    )
+                    ),
+                    headerShown: false
                 }}
             />  
 
