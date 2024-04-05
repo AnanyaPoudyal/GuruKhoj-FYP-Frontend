@@ -9,6 +9,7 @@ import TutorRegister from "../Screens/User/tutorRegister";
 import ProgramContainer from "../Screens/Programs/ProgramContainer";
 import Main from './Main';
 import UserNavigator from './UserNavigator';
+import TutorMain from './TutorMain';
 
 const Stack = createStackNavigator();
 
@@ -47,7 +48,7 @@ const AuthStack = () => {
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
           <Stack.Screen name="StudentRegister" component={StudentRegister} />
           <Stack.Screen name="TutorRegister" component={TutorRegister} />
-          <Stack.Screen name="Home" component={Main} />
+          <Stack.Screen name="Home" component={TutorMain} />
           
         </>
       )}

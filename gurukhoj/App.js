@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Header from './Screens/Shared/Header';
 
 // Navigators
 import Main from './Navigators/Main';
@@ -31,6 +32,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
+      <Header />
       {isLoggedIn ? <Main /> : <AuthStack />}
     </NavigationContainer>
   );
