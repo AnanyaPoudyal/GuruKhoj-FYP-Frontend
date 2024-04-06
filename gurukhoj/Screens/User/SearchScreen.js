@@ -2,16 +2,21 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, FlatList, StyleSheet, Image } from 'react-native';
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SearchScreen = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     // Make an API call to retrieve search results
+    const token = await AsyncStorage.getItem('AccessToken');
     axios
-        .post(`${baseURL}gktutors?name=${encodeURIComponent(query)}`)
+        .post(`${baseURL}gkusers/search?first_name=${encodeURIComponent(query)}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
         .then(response => {
           setResults(response.data);
         })

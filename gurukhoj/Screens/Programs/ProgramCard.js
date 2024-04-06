@@ -48,17 +48,20 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         alignItems: 'center',
         elevation: 8,
-        backgroundColor: 'green'
+        borderWidth: 5,
+        borderColor: '#4DBFFF',
+        borderRadius: 50,
+        backgroundColor: '#fff'
     }, 
     image: {
         width: width / 3 - 20 - 10,
         height: width / 2 - 20 - 30,
         backgroundColor: 'transparent',
         position: 'absolute',
-        top: -45
+        top: -10
     }, 
     card: {
-        marginBottom: 10,
+        marginBottom: 40,
         height: width / 2 - 20 - 90,
         backgroundColor: 'transparent',
         width: width / 2 - 20 - 10

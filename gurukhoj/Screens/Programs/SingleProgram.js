@@ -1,9 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { Image, View, StyleSheet, Text, ScrollView, Button } from 'react-native';
+import { Image, View, StyleSheet, Text, ScrollView, Button, Alert } from 'react-native';
 import { Container, H1, Right, Left } from 'native-base';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import baseURL from '../../assets/common/baseUrl';
 
 const SingleProgram = (props) => {
     const [item, setItem] = useState(props.route.params.item);
+    const [enrolled, setEnrolled] = useState(false);
+
+    // Function to handle enrollment
+    const handleEnroll = async () => {
+        try {
+            // Retrieve user ID from AsyncStorage
+            const userId = await AsyncStorage.getItem('UserId');
+            const token = await AsyncStorage.getItem('AccessToken');
+            // Make API call to enroll in the program
+            const response = await axios.post(`${baseURL}gkadmits/`, {
+                gkstatus: 'waiting',
+                gkuser: userId,
+                gkprogram: item._id,
+            }, {
+                headers: {
+                  Authorization: `Bearer ${token}`
+                }
+            });
+            setEnrolled(true);
+            // Handle successful enrollment
+            Alert.alert('Enrollment Successful', 'You have successfully enrolled in the program.');
+        } catch (error) {
+            // Handle error
+            console.error('Error enrolling in program:', error);
+            Alert.alert('Enrollment Failed', 'Failed to enroll in the program. Please try again later.');
+        }
+    };
 
     return ( 
         <Container style={styles.container}>
@@ -43,8 +73,12 @@ const SingleProgram = (props) => {
                         </Text>
                     </Left>
                     <Right>
-                        <Button title="Enroll"/>
-                    </Right>
+                    {enrolled ? ( // If enrolled, display text
+                        <Text>Enrolled</Text>
+                    ) : ( // If not enrolled, display button
+                        <Button title="Enroll" onPress={handleEnroll} /> 
+                    )}
+                </Right>
 
                 </View>
         </Container>

@@ -8,7 +8,7 @@ const Tab = createBottomTabNavigator();
 import HomeNavigator from "./HomeNavigator";
 import UserNavigator from "./UserNavigator";
 import TutorNavigator from "./TutorNavigator";
-import SearchScreen from "../Screens/User/SearchScreen";
+import AdmitsScreen from "../Screens/Tutor/Admits";
 import UserScreen from "../Screens/User/UserContainer";
 import TutorProgram from "../Screens/Tutor/TutorProgram";
 
@@ -52,7 +52,7 @@ const TutorMain = () => {
             />  
             <Tab.Screen
                 name="Profile"
-                component={SearchScreen}
+                component={AdmitsScreen}
                 options={{
                     tabBarIcon: ({ color }) => (
                         <Icon

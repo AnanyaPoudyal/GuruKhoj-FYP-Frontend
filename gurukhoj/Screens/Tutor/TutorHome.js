@@ -5,8 +5,6 @@ import baseURL from '../../assets/common/baseUrl'; // Importing the base URL for
 import axios from 'axios'; // Importing Axios for making HTTP requests
 import { useFocusEffect } from '@react-navigation/native'; // Importing useFocusEffect from React Navigation
 
-const data = require('../../assets/data/program.json'); // Importing program data from a JSON file
-
 const TutorHome = (props) => {
     // State to store the list of programs
     const [programs, setPrograms] = useState([]);
