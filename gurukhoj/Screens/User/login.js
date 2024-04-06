@@ -22,15 +22,19 @@ const Login = (props) => {
           password: password,
         })
         .then((response) => {
+          console.log(response.data);
           if(response.status == 200) {
-            AsyncStorage.setItem("AccessToken", response.data.token)
+            const token = response.data.token;
+            const userId = response.data.user.userID; // Extracting user ID from the response
+            AsyncStorage.setItem("AccessToken", token); // Storing the access token
+            AsyncStorage.setItem("UserId", userId); // Storing the user ID
             props.navigation.navigate("Home")
+            console.log("Login successful. Token:", userId);
           }
           //const token = response.data.token; // Assuming the token is returned in the response
           // You can store the token in AsyncStorage or some other local storage mechanism
           // Redirect to the authenticated screen or perform any other actions
           //await AsyncStorage.setItem('@auth', JSON.stringify(token));
-         // console.log("Login successful. Token:", token);
         })
         .catch((error) => {
           setError("Invalid email or password");
