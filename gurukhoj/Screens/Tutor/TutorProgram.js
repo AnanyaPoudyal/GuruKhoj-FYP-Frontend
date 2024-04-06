@@ -8,6 +8,7 @@ import Error from "../Shared/Error";
 import Toast from "react-native-toast-message";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import EasyButton from "../Shared/EasyButton";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
@@ -21,10 +22,19 @@ const TutorProgram = (props) => {
   const [gkprogramPrice, setGkprogramPrice] = useState("");
   const [gkprogramStudentCapacity, setGkprogramStudentCapacity] = useState("");
   const [gkprogramHomeTution, setGkprogramHomeTution] = useState("");
+  const [gkuser, setGkuser] = useState("");
   
   const [error, setError] = useState("");
 
-  const postProgram = () => {
+  const postProgram = async () => {
+    const userId = await AsyncStorage.getItem('UserId');
+    const accessToken = await AsyncStorage.getItem('AccessToken'); // Retrieve access token from AsyncStorage
+
+  if (!accessToken) {
+    // Handle case where access token is not available
+    console.error('Access token not found');
+    return;
+  }
     if (
       gkprogramArea === "" ||
       gkprogramSubject === "" ||
@@ -38,41 +48,46 @@ const TutorProgram = (props) => {
       setError("Please fill in the form correctly");
       return;
     }
-
+  
     let program = {
       gkprogramArea: gkprogramArea,
       gkprogramSubject: gkprogramSubject,
-      gkprogramAddress: gkprogramAddress, // Set isAdmin to false
+      gkprogramAddress: gkprogramAddress, 
       gkprogramStartTime: gkprogramStartTime,
       gkprogramEndTime: gkprogramEndTime, // Update to match the database column name
       gkprogramPrice: gkprogramPrice,
       gkprogramStudentCapacity: gkprogramStudentCapacity,
       gkprogramHomeTution: gkprogramHomeTution,
+      gkuser: userId
     };
-
-    axios
-      .post(`${baseURL}gkprograms/`, program)
-      .then((res) => {
-        if (res.status === 200) {
-          Toast.show({
-            topOffset: 60,
-            type: "success",
-            text1: "Program Created",
-            text2: "Your program is scuccesfully created",
-          });
-          setTimeout(() => {
-            props.navigation.navigate("TutorHome");
-          }, 500);
+    console.log("One")
+    try {
+      const res = await axios.post(`${baseURL}gkprograms/`, program, {
+        headers: {
+          Authorization: `Bearer ${accessToken}` // Include access token in the request headers
         }
-      })
-      .catch((error) => {
+      });
+  
+      if (res.status === 200) {
         Toast.show({
           topOffset: 60,
-          type: "error",
-          text1: "Something went wrong",
-          text2: "Please try again",
+          type: "success",
+          text1: "Program Created",
+          text2: "Please login to your account",
         });
+        setTimeout(() => {
+          props.navigation.navigate("TutorHome");
+        }, 500);
+      }
+    } catch (error) {
+      Toast.show({
+        topOffset: 60,
+        type: "error",
+        text1: "Something went wrong",
+        text2: "Please try again",
       });
+      console.error("Error creating program:", error);
+    }
   };
 
   return (
