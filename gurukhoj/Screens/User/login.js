@@ -6,6 +6,7 @@ import Error from "../Shared/Error";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import baseURL from "../../assets/common/baseUrl";
+import {STUDENT_ROLE, TUTOR_ROLE} from "../../assets/common/userRole";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
@@ -26,9 +27,15 @@ const Login = (props) => {
           if(response.status == 200) {
             const token = response.data.token;
             const userId = response.data.user.userID; // Extracting user ID from the response
+            const gkRole = response.data.user.gkrole;
             AsyncStorage.setItem("AccessToken", token); // Storing the access token
             AsyncStorage.setItem("UserId", userId); // Storing the user ID
-            props.navigation.navigate("Home")
+            if(gkRole == STUDENT_ROLE){
+              props.navigation.navigate("Home")
+            }
+            if(gkRole == TUTOR_ROLE){
+              props.navigation.navigate("TutorHome")
+            }
             console.log("Login successful. Token:", userId);
           }
           //const token = response.data.token; // Assuming the token is returned in the response

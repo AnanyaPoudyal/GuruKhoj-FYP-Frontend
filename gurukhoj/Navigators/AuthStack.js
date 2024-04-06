@@ -48,7 +48,8 @@ const AuthStack = () => {
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
           <Stack.Screen name="StudentRegister" component={StudentRegister} />
           <Stack.Screen name="TutorRegister" component={TutorRegister} />
-          <Stack.Screen name="Home" component={TutorMain} />
+          <Stack.Screen name="TutorHome" component={TutorMain} />
+          <Stack.Screen name="Home" component={Main} />
           
         </>
       )}
