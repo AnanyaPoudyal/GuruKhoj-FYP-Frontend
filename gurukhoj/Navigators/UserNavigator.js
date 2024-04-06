@@ -4,6 +4,8 @@ import UserScreen from "../Screens/User/UserContainer";
 import StudentRegister from "../Screens/User/studentRegister";
 import TutorRegister from "../Screens/User/tutorRegister";
 import Login from "../Screens/User/login";
+import ProgramContainer from "../Screens/Programs/ProgramContainer";
+import SingleProgram from "../Screens/Programs/SingleProgram"
 
 
 const Stack = createStackNavigator();
@@ -35,6 +37,20 @@ function UserStack() {
              <Stack.Screen
                 name="TutorRegister"
                 component={TutorRegister}
+                options={{
+                    headerShown: false,
+                }}
+            />
+                        <Stack.Screen
+                name="Home"
+                component={ProgramContainer}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name="Program Details"
+                component={SingleProgram}
                 options={{
                     headerShown: false,
                 }}

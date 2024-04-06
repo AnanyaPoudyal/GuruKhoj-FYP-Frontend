@@ -7,10 +7,12 @@ const Tab = createBottomTabNavigator();
 //Stack
 import HomeNavigator from "./HomeNavigator";
 import UserNavigator from "./UserNavigator";
+import TutorNavigator from "./TutorNavigator";
 import SearchScreen from "../Screens/User/SearchScreen";
 import UserScreen from "../Screens/User/UserContainer";
+import TutorProgram from "../Screens/Tutor/TutorProgram";
 
-const Main = () => {
+const TutorMain = () => {
     return (
         <Tab.Navigator initialRouteName="Home"
         tabBarOptions = {{
@@ -20,7 +22,7 @@ const Main = () => {
         }}>
             <Tab.Screen
                 name="Home"
-                component={HomeNavigator}
+                component={TutorNavigator}
                 options={{
                     tabBarIcon: ({ color }) => (
                         <Icon
@@ -35,7 +37,7 @@ const Main = () => {
             />
             <Tab.Screen
                 name="Cart"
-                component={HomeNavigator}
+                component={TutorProgram}
                 options={{
                     tabBarIcon: ({ color }) => (
                         <Icon
@@ -83,4 +85,4 @@ const Main = () => {
     )
 }
 
-export default Main;
+export default TutorMain;

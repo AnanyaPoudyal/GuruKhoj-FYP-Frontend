@@ -2,9 +2,9 @@ import React from 'react';
 import { View, Text, StyleSheet,Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import UserNavigator from '../../Navigators/UserNavigator';
-import Login from './login';
 
-const UserScreen = ({ navigation }) => {
+
+const TutorHome = ({ navigation }) => {
   const handleLogout = async () => {
     // Clear authentication token from AsyncStorage
     await AsyncStorage.removeItem('AccessToken');
@@ -14,7 +14,7 @@ const UserScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text>User Screen</Text>
+      <Text>Tutor Screen</Text>
       <Button title="Logout" onPress={handleLogout} />
     </View>
   );
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UserScreen;
+export default TutorHome;
