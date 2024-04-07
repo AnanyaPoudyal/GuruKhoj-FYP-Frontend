@@ -6,7 +6,7 @@ import Error from "../Shared/Error";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import baseURL from "../../assets/common/baseUrl";
-import {STUDENT_ROLE, TUTOR_ROLE} from "../../assets/common/userRole";
+import {STUDENT_ROLE, TUTOR_ROLE, ADMIN_ROLE} from "../../assets/common/userRole";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
@@ -35,6 +35,9 @@ const Login = (props) => {
             }
             if(gkRole == TUTOR_ROLE){
               props.navigation.navigate("TutorHome")
+            }
+            if(gkRole == ADMIN_ROLE){
+              props.navigation.navigate("Admin")
             }
             console.log("Login successful. Token:", userId);
           }
