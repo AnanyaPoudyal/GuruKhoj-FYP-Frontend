@@ -49,23 +49,22 @@ const UserScreen = () => {
     navigation.navigate("Login");
   };
 
+
   return (
-    <View>
-      <Text>User Profile:</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>User Profile:</Text>
       {userData && (
-        <View>
-          <Text>First Name: {userData.first_name}</Text>
-          <Text>Last Name: {userData.last_name}</Text>
-          <Text>Address: {userData.address}</Text>
-          <Text>Email: {userData.email}</Text>
+        <View style={styles.userContainer}>
+          <Text style={styles.userInfo}>First Name: {userData.first_name}</Text>
+          <Text style={styles.userInfo}>Last Name: {userData.last_name}</Text>
+          <Text style={styles.userInfo}>Address: {userData.address}</Text>
+          <Text style={styles.userInfo}>Email: {userData.email}</Text>
           {/* Render other user fields as needed */}
         </View>
       )}
 
-      <Button style={styles.container} title="Logout" onPress={handleLogout} />
-
+      <Button title="Logout" onPress={handleLogout} />
     </View>
-
   );
 };
 
@@ -74,6 +73,28 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 20,
+  },
+  title: {
+    color: '#4DBFFF',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  userContainer: {
+    height: '40%',
+    width: '90%',
+    borderWidth: 3  ,
+    borderColor: '#4DBFFF',
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 20,
+    backgroundColor: '#fff'
+  },
+  userInfo: {
+    alignItems: 'center',
+    fontSize: 16,
+    marginBottom: 5,
   },
 });
 
