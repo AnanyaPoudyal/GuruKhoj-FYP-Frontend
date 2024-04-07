@@ -77,15 +77,11 @@ const AdmitsScreen = () => {
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <View style={styles.enrollment}>
-                    <Text>User: {`${item.gkuser.first_name} ${item.gkuser.last_name}`}</Text>
-                    {item.gkprogram ? (
-                        <Text>Program: {item.gkprogram.gkprogramArea}</Text>
-                    ) : (
-                        <Text>Program: Not available</Text>
-                    )}
-                    <Text>Status: {item.gkstatus}</Text>
-                    <Button title="Edit Status" onPress={() => handleEditStatus(item.id)} />
-                </View>
+                        <Text style={styles.userInfo}>User: {`${item.gkuser.first_name} ${item.gkuser.last_name}`}</Text>
+                        <Text style={styles.userInfo}>Program: {item.gkprogram ? item.gkprogram.gkprogramArea : 'Not available'}</Text>
+                        <Text style={styles.userInfo}>Status: {item.gkstatus}</Text>
+                        <Button title="Edit Status" onPress={() => handleEditStatus(item.id)} />
+                    </View>
                 )}
             />
         </View>
@@ -96,18 +92,28 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
+        backgroundColor: '#f0f0f0', // Light gray background color
     },
     header: {
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 10,
+        marginBottom: 20,
+        color: '#4DBFFF', // Blue header color
     },
     enrollment: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        padding: 10,
+        borderWidth: 2,
+        borderColor: '#4DBFFF', // Blue border color
+        borderRadius: 10,
+        padding: 15,
+        marginBottom: 20,
+        backgroundColor: '#ffffff', // White background color
+    },
+    userInfo: {
+        fontSize: 18,
         marginBottom: 10,
+        color: '#333333', // Dark text color
     },
 });
+
 
 export default AdmitsScreen;

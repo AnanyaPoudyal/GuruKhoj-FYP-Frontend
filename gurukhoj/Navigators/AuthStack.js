@@ -10,6 +10,7 @@ import ProgramContainer from "../Screens/Programs/ProgramContainer";
 import Main from './Main';
 import UserNavigator from './UserNavigator';
 import TutorMain from './TutorMain';
+import AdminScreen from '../Screens/Admin/AdminScreen';
 
 const Stack = createStackNavigator();
 
@@ -50,7 +51,7 @@ const AuthStack = () => {
           <Stack.Screen name="TutorRegister" component={TutorRegister} />
           <Stack.Screen name="TutorHome" component={TutorMain} />
           <Stack.Screen name="Home" component={Main} />
-          
+          <Stack.Screen name="Admin" component={AdminScreen} />
         </>
       )}
     </Stack.Navigator>
