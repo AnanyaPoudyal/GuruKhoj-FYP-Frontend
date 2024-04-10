@@ -9,6 +9,7 @@ import HomeNavigator from "./HomeNavigator";
 import UserNavigator from "./UserNavigator";
 import SearchScreen from "../Screens/User/SearchScreen";
 import UserScreen from "../Screens/User/UserContainer";
+import SearchNavigator from "./SearchNavigator";
 
 const Main = () => {
     return (
@@ -49,12 +50,12 @@ const Main = () => {
                 }}
             />  
             <Tab.Screen
-                name="Profile"
-                component={SearchScreen}
+                name="Search"
+                component={SearchNavigator}
                 options={{
                     tabBarIcon: ({ color }) => (
                         <Icon
-                        name="cog"
+                        name="search"
                         style={{ position: "relative"}}
                         color={color}
                         size={30}

@@ -1,63 +1,82 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Button, FlatList, StyleSheet, Image } from 'react-native';
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const SearchScreen = () => {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
 
-  const handleSearch = async () => {
-    // Make an API call to retrieve search results
-    const token = await AsyncStorage.getItem('AccessToken');
-    axios
-        .post(`${baseURL}gkusers/search?first_name=${encodeURIComponent(query)}`, {
+const SearchScreen = ({ navigation }) => {
+  const [searchQuery, setQuery] = useState('');
+  const [filteredUser, setFilteredUser] = useState([]);
+  const [allUser, setAllUser] = useState([]);
+
+  async function getAllData() {
+    try {
+        // Make an API call to retrieve search results
+        const token = await AsyncStorage.getItem('AccessToken');
+        const response = await axios.get(`${baseURL}gkusers/`, {
             headers: {
-              Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
             },
-          })
-        .then(response => {
-          setResults(response.data);
-        })
-        .catch(error => {
-          if (error.response) {
-            // The request was made and the server responded with a status code
-            console.error('Error response data:', error.response.data);
-            console.error('Error response status:', error.response.status);
-          } else if (error.request) {
-            // The request was made but no response was received
-            console.error('No response received:', error.request);
-          } else {
-            // Something happened in setting up the request that triggered an error
-            console.error('Error setting up the request:', error.message);
-          }
         });
+        console.log(response);
+        // Filter users by role 'Tutor'
+        const tutorUsers = response.data.filter(user => user.gkrole.gkUserRole === 'Tutor');
+        
+        // Set the filtered users state
+        setAllUser(tutorUsers);
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+    }
+}
+
+  const handleSearch = query => {
+    setQuery(query);
+    const filtered = allUser.filter(
+      user =>
+      typeof query === 'string' &&
+      user.first_name.toLowerCase().includes(query.toLowerCase())
+    );
+setFilteredUser(filtered);
     };
+    useEffect(() => {
+      getAllData();
+    }, []);
+
+    const handleProfilePress = userId => {
+      // Navigate to the user's profile screen
+      navigation.navigate('UserProfile', { userId  });
+    };
+  
+
+    const UserCard = ({data}) => (
+      <TouchableOpacity onPress={() => handleProfilePress(data._id)}>
+    <View style={styles.cardContainer}>
+      <View style={styles.userInfo}>
+        <Text style={styles.userName}>{data.first_name} {data.last_name}</Text>
+      </View>
+    </View>
+  </TouchableOpacity>
+    );
 
   return (
     <View style={styles.container}>
-        {/* <Image source={require('../assets/logo.png')} style={styles.logo} /> */}
       <TextInput
         style={styles.input}
-        value={query}
-        onChangeText={text => setQuery(text)}
+        value={searchQuery}
+        onChangeText={(query) => handleSearch(query)}
         placeholder="Search..."
       />
 
-      <Button title="Search" onPress={handleSearch} />
+      <Button  style={styles.searchButton} title="Search" onPress={handleSearch} />
 
       <FlatList
-          data={results}
-          keyExtractor={item => item.id.toString()}
-          renderItem={({ item }) => (
-            <View style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: '#ccc' }}>
-              <Text>Name: {item.name}</Text>
-            </View>
-          )}
+          data={searchQuery.length>0?filteredUser:allUser}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={item => item._id}
+          renderItem={({ item }) => <UserCard data={item} />}
         />
-      <View style={styles.tabContainer}>
-      </View>
     </View>
   );
 };
@@ -74,14 +93,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     width: '100%',
     height: 40,
-  },
-  tabContainer: {
-    position: 'absolute', // Position the tab navigator absolutely
-    bottom: 0, // Stick it to the bottom
-    left: 0,
-    right: 0,
-    borderTopWidth: 1,
-    borderColor: 'lightgray',
   },
   logo: {
     width: 216, 
@@ -105,6 +116,32 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     marginRight: 10,
+  },
+  cardContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#f5f5f5', // Light gray background color
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 10,
+    elevation: 2, // Add elevation for shadow (Android)
+    shadowColor: '#000', // Add shadow color (iOS)
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  userInfo: {
+    flex: 1,
+  },
+  userName: {
+    fontSize: 18,
+    fontWeight: 'Italic',
+    color: '#4DBFFF', 
+    marginBottom: 5,
   },
 });
 
