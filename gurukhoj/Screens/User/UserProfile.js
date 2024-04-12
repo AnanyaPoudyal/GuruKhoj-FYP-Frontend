@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import axios from 'axios';
 import baseURL from "../../assets/common/baseUrl";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const UserProfile = ({ route }) => {
+const UserProfile = ({ navigation, route }) => {
   const { userId } = route.params;
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -40,6 +40,14 @@ const UserProfile = ({ route }) => {
     fetchUserProfile();
   }, [userId]);
 
+  const handleFeedbackPress = () => {
+    // Navigate to the feedback screen with the tutor's user ID
+    navigation.navigate('Feedback', { userId });
+  };
+  const handleReviewPress = () => {
+    // Navigate to the feedback screen with the tutor's user ID
+    navigation.navigate('Review', { userId });
+  };
   if (loading) {
     return (
       <View style={styles.container}>
@@ -69,6 +77,8 @@ const UserProfile = ({ route }) => {
           <Text>{userData.email}</Text>
           <Text style={styles.label}>Address:</Text>
           <Text>{userData.address}</Text>
+          <Button title="Give Feedback" onPress={handleFeedbackPress} />
+          <Button title="Rate and Review" onPress={handleReviewPress} />
         </>
       ) : (
         <Text>No user data found.</Text>

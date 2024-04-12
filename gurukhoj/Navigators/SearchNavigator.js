@@ -3,7 +3,9 @@ import { createStackNavigator } from "@react-navigation/stack"
 
 import SearchScreen from "../Screens/User/SearchScreen";
 import UserProfile from "../Screens/User/UserProfile";
-const Stack =  createStackNavigator()
+import Feedback from "../Screens/User/Feedback";
+
+const Stack = createStackNavigator()
 
 function SearchStack() {
     return (
@@ -18,6 +20,13 @@ function SearchStack() {
             <Stack.Screen
                 name="UserProfile"
                 component={UserProfile}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name="Feedback"
+                component={Feedback}
                 options={{
                     headerShown: false,
                 }}
