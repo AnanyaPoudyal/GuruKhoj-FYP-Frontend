@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
-import { WebView } from 'react-native-webview';
+// import { WebView } from 'react-native-webview';
 
 const AdminScreen = () => {
   const adminPanelUrl = 'https://your-admin-panel.com';
@@ -8,7 +8,7 @@ const AdminScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <WebView source={{ uri: adminPanelUrl }} />
+      {/* <WebView source={{ uri: adminPanelUrl }} /> */}
     </SafeAreaView>
   );
 };

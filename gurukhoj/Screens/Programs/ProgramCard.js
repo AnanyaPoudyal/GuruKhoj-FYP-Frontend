@@ -11,7 +11,7 @@ import {
 var { width } = Dimensions.get("window");
 
 const ProgramCard = (props) => {
-    const { gkprogramArea, gkprogramSubject, gkprogramAddress, gkprogramStartTime, gkprogramEndTime, gkprogramPrice, gkprogramStudentCapacity, gkprogramHomeTution} = props;
+    const { gkprogramSubject, gkprogramPrice } = props;
 
     return (
         <View style = {styles.container}>
@@ -22,7 +22,7 @@ const ProgramCard = (props) => {
             />
             <View style={styles.card}/>
             <Text style={styles.gkprogramSubject}>
-                {gkprogramSubject.length > 15 ? gkprogramSubject.substring(0, 15 - 3) + '...' : gkprogramSubject}
+                {gkprogramSubject && gkprogramSubject.length > 15 ? gkprogramSubject.substring(0, 15 - 3) + '...' : gkprogramSubject}
             </Text>
             <Text styles={styles.gkprogramPrice}>${gkprogramPrice}</Text>
 
