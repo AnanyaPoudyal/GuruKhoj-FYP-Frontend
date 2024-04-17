@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, Image } from 'react-native';
 import axios from 'axios';
 import baseURL from '../../assets/common/baseUrl';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -55,11 +55,17 @@ const UserScreen = () => {
       <Text style={styles.title}>User Profile:</Text>
       {userData && (
         <View style={styles.userContainer}>
+          <Image
+            source={{ uri: userData.photo || "https://m.media-amazon.com/images/I/8179uEK+gcL._AC_UF1000,1000_QL80_.jpg"}}
+            style={styles.userPhoto}
+            onError={(error) => console.error('Error loading image:', error)}
+          />
           <Text style={styles.userInfo}>First Name: {userData.first_name}</Text>
           <Text style={styles.userInfo}>Last Name: {userData.last_name}</Text>
           <Text style={styles.userInfo}>Address: {userData.address}</Text>
           <Text style={styles.userInfo}>Email: {userData.email}</Text>
-          {/* Render other user fields as needed */}
+
+
         </View>
       )}
 
@@ -96,8 +102,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 5,
   },
+  userPhoto: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    alignSelf: 'center',
+    marginVertical: 10,
+  },
 });
 
 export default UserScreen;
-
-
