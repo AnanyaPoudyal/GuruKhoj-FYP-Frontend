@@ -93,7 +93,7 @@ const Login = (props) => {
         <Button
           style={styles.button}
           title="Tutor Register"
-          onPress={() => props.navigation.navigate("TutorRegister")}
+          onPress={() => props.navigation.navigate("TutorSingup")}
         />
       </View>
     </FormContainer>

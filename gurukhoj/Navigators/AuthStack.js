@@ -11,6 +11,8 @@ import Main from './Main';
 import UserNavigator from './UserNavigator';
 import TutorMain from './TutorMain';
 import AdminScreen from '../Screens/Admin/AdminScreen';
+import AdminNavigation from './AdminNavigation';
+import TutorSingup from './TutorSingup';
 
 const Stack = createStackNavigator();
 
@@ -48,10 +50,10 @@ const AuthStack = () => {
         <>
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
           <Stack.Screen name="StudentRegister" component={StudentRegister} />
-          <Stack.Screen name="TutorRegister" component={TutorRegister} />
+          <Stack.Screen name="TutorSingup" component={TutorSingup} />
           <Stack.Screen name="TutorHome" component={TutorMain} />
           <Stack.Screen name="Home" component={Main} />
-          <Stack.Screen name="Admin" component={AdminScreen} />
+          <Stack.Screen name="Admin" component={AdminNavigation} />
         </>
       )}
     </Stack.Navigator>

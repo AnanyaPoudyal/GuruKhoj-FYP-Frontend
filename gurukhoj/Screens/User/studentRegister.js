@@ -1,6 +1,4 @@
-// StudentRegister.js
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import FormContainer from "../Shared/Form/FormContainer";
 import Input from "../Shared/Form/Input";
@@ -8,6 +6,7 @@ import Error from "../Shared/Error";
 import Toast from "react-native-toast-message";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import EasyButton from "../Shared/EasyButton";
+import * as ImagePicker from 'expo-image-picker'; // Import ImagePicker from Expo
 
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
@@ -20,33 +19,83 @@ const StudentRegister = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [image, setImage] = useState(null); // State for storing selected image URI
 
-  const registerStudent = () => {
+  // Request permission to access the device's image gallery
+  useEffect(() => {
+    (async () => {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+  
+    console.log("Image picked:", result);
+  
+    if (!result.cancelled) {
+      const selectedImageUri = result.assets[0].uri; // Access the URI from the assets array
+      setImage(selectedImageUri);
+      console.log("Image uri:", selectedImageUri);
+    }
+  };
+  
+  const registerStudent = async () => {
+   
+    const existingUser = await checkIfEmailExists(email);
+    if (existingUser) {
+        // Display error message to the user
+        setError('Email address already exists');
+        return;
+    }
+  
     if (
       firstName === "" ||
       lastName === "" ||
       address === "" ||
       contactNumber === "" ||
       email === "" ||
-      password === ""
+      password === "" ||
+      !image // Check if image is not defined
     ) {
       setError("Please fill in the form correctly");
       return;
     }
+  
 
-    let student = {
-      first_name: firstName,
-      last_name: lastName,
-      isAdmin: false, // Set isAdmin to false
-      address: address,
-      contact_number: contactNumber, // Update to match the database column name
-      email: email,
-      password: password,
-      gkrole: "65e3bd5b0a60f1a2749db7ae",
-    };
+// Create a new FormData object
+let formData = new FormData();
+
+// Append the image to the form data
+let localUri = image;
+let filename = localUri.split("/").pop();
+
+// Infer the type of the image
+let match = /\.(\w+)$/.exec(filename);
+let type = match ? `image/${match[1]}` : `image`;
+
+// Append the image to the form data
+formData.append("photo", { uri: localUri, name: filename, type });
+
+// Append other fields to the form data
+formData.append("first_name", firstName);
+formData.append("last_name", lastName);
+formData.append("address", address);
+formData.append("contact_number", contactNumber);
+formData.append("email", email);
+formData.append("password", password);
+formData.append("gkrole", "65e3bd5b0a60f1a2749db7ae");
 
     axios
-      .post(`${baseURL}gkusers/register`, student)
+      .post(`${baseURL}gkusers/register`, formData)
       .then((res) => {
         if (res.status === 200) {
           Toast.show({
@@ -77,8 +126,8 @@ const StudentRegister = (props) => {
       enableOnAndroid={true}
     >
       <FormContainer >
-      <Text style={styles.title}>Create Student</Text>
-      <Text style={styles.title}> Account</Text>
+        <Text style={styles.title}>Create Student</Text>
+        <Text style={styles.title}> Account</Text>
         <Input
           placeholder={"First Name"}
           name={"firstName"}
@@ -117,6 +166,13 @@ const StudentRegister = (props) => {
           secureTextEntry={true}
           onChangeText={(text) => setPassword(text)}
         />
+                <View>
+          <EasyButton large primary onPress={pickImage}>
+            <Text style={{ color: "white" }}>Select Photo</Text>
+          </EasyButton>
+        </View>
+
+        {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
         <View style={styles.buttonGroup}>
           {error ? <Error message={error} /> : null}
         </View>
@@ -134,6 +190,7 @@ const StudentRegister = (props) => {
             <Text style={{ color: "white" }}>Back to Login</Text>
           </EasyButton>
         </View>
+
       </FormContainer>
     </KeyboardAwareScrollView>
   );
