@@ -8,6 +8,31 @@ import baseURL from '../../assets/common/baseUrl';
 const SingleProgram = (props) => {
     const [item, setItem] = useState(props.route.params.item);
     const [enrolled, setEnrolled] = useState(false);
+    const [userName, setUserName] = useState('');
+
+    console.log(item);
+
+    useEffect(() => {
+        // Fetch user name when component mounts
+        fetchUserName();
+    }, []);
+
+    // Function to fetch user name
+    const fetchUserName = async () => {
+        try {
+            // Make API call to fetch user details based on gkuser ID
+            const token = await AsyncStorage.getItem('AccessToken');
+            const response = await axios.get(`${baseURL}gkusers/${item.gkuser}`, {
+                headers: {
+                  Authorization: `Bearer ${token}`
+                }
+            });
+            // Assuming user's first name and last name are stored in the response
+            setUserName(`${response.data.data.first_name} ${response.data.data.last_name}`);
+        } catch (error) {
+            console.error('Error fetching user name:', error);
+        }
+    };
 
     // Function to handle enrollment
     const handleEnroll = async () => {
@@ -61,9 +86,10 @@ const SingleProgram = (props) => {
                     <Text style={styles.contentText}>
                         {item.gkprogramEndTime}
                     </Text>
-                    
+                    <Text style={styles.contentText}>
+                        {userName && `Tutor: ${userName}`} 
+                    </Text>
                 </View>
-                {/*TODO: add extra description, which needs ot be added in DB as well: */}
            
             </ScrollView>
 

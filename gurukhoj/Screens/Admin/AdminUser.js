@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { ListItem, Icon, Button } from 'react-native-elements';
+import { ListItem, Icon, Button, Input } from 'react-native-elements';
 import axios from 'axios';
 import baseURL from '../../assets/common/baseUrl';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,6 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const AdminUser = ({ navigation }) => {
   const [users, setUsers] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [editingUserId, setEditingUserId] = useState(null);
+  const [editedUser, setEditedUser] = useState({});
 
   useEffect(() => {
     fetchUsers();
@@ -32,7 +34,24 @@ const AdminUser = ({ navigation }) => {
   };
 
   const handleEditUser = (userId) => {
-    navigation.navigate('EditUser', { userId });
+    setEditingUserId(userId);
+    const userToEdit = users.find(user => user.id === userId);
+    setEditedUser(userToEdit);
+  };
+
+  const handleSaveUser = async () => {
+    try {
+      const token = await AsyncStorage.getItem('AccessToken');
+      await axios.put(`${baseURL}gkusers/${editingUserId}`, editedUser, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setEditingUserId(null);
+      fetchUsers();
+    } catch (error) {
+      console.error('Error saving user:', error);
+    }
   };
 
   const handleDeleteUser = async (userId) => {
@@ -87,18 +106,54 @@ const AdminUser = ({ navigation }) => {
           renderItem={({ item }) => (
             <ListItem bottomDivider>
               <Icon name="user" type="font-awesome" />
-              <ListItem.Content>
-                <ListItem.Title>{item.first_name} {item.last_name}</ListItem.Title>
-                <ListItem.Subtitle>Email: {item.email}</ListItem.Subtitle>
-                <ListItem.Subtitle>Address: {item.address}</ListItem.Subtitle>
-                <ListItem.Subtitle>Contact Number: {item.contact_number}</ListItem.Subtitle>
-              </ListItem.Content>
+              {editingUserId === item.id ? (
+                <View style={styles.editingContainer}>
+                  <Input
+                    label="First Name"
+                    value={editedUser.first_name}
+                    onChangeText={(text) => setEditedUser({...editedUser, first_name: text})}
+                  />
+                  <Input
+                    label="Last Name"
+                    value={editedUser.last_name}
+                    onChangeText={(text) => setEditedUser({...editedUser, last_name: text})}
+                  />
+                  <Input
+                    label="Email"
+                    value={editedUser.email}
+                    onChangeText={(text) => setEditedUser({...editedUser, email: text})}
+                  />
+                  <Input
+                    label="Address"
+                    value={editedUser.address}
+                    onChangeText={(text) => setEditedUser({...editedUser, address: text})}
+                  />
+                  <Input
+                    label="Contact Number"
+                    value={editedUser.contact_number}
+                    onChangeText={(text) => setEditedUser({...editedUser, contact_number: text})}
+                  />
+                  <Button
+                    title="Save"
+                    onPress={handleSaveUser}
+                  />
+                </View>
+              ) : (
+                <ListItem.Content>
+                  <ListItem.Title>{item.first_name} {item.last_name}</ListItem.Title>
+                  <ListItem.Subtitle>Email: {item.email}</ListItem.Subtitle>
+                  <ListItem.Subtitle>Address: {item.address}</ListItem.Subtitle>
+                  <ListItem.Subtitle>Contact Number: {item.contact_number}</ListItem.Subtitle>
+                </ListItem.Content>
+              )}
               <View style={styles.actionButtons}>
-                <Button
-                  icon={<Icon name="edit" type="font-awesome" color="#fff" />}
-                  buttonStyle={styles.editButton}
-                  onPress={() => handleEditUser(item.id)}
-                />
+                {!editingUserId && (
+                  <Button
+                    icon={<Icon name="edit" type="font-awesome" color="#fff" />}
+                    buttonStyle={styles.editButton}
+                    onPress={() => handleEditUser(item.id)}
+                  />
+                )}
                 <Button
                   icon={<Icon name="trash" type="font-awesome" color="#fff" />}
                   buttonStyle={styles.deleteButton}
@@ -161,6 +216,9 @@ const styles = StyleSheet.create({
   deleteButton: {
     backgroundColor: '#F44336',
   },
+  editingContainer: {
+    flex: 1,
+  }
 });
 
 export default AdminUser;

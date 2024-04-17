@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { ListItem, Icon, Button } from 'react-native-elements';
+import { ListItem, Icon, Button, Input } from 'react-native-elements';
 import axios from 'axios';
 import baseURL from '../../assets/common/baseUrl';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,6 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const AdminTutor = ({ navigation }) => {
   const [tutors, setTutors] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [editingTutorId, setEditingTutorId] = useState(null);
+  const [editedTutor, setEditedTutor] = useState({});
 
   useEffect(() => {
     fetchTutors();
@@ -28,6 +30,27 @@ const AdminTutor = ({ navigation }) => {
       setTutors(response.data);
     } catch (error) {
       console.error('Error fetching tutors:', error);
+    }
+  };
+
+  const handleEditTutor = (tutorId) => {
+    setEditingTutorId(tutorId);
+    const tutorToEdit = tutors.find(tutor => tutor.id === tutorId);
+    setEditedTutor(tutorToEdit);
+  };
+
+  const handleSaveTutor = async () => {
+    try {
+      const token = await AsyncStorage.getItem('AccessToken');
+      await axios.put(`${baseURL}gktutors/${editingTutorId}`, editedTutor, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setEditingTutorId(null);
+      fetchTutors();
+    } catch (error) {
+      console.error('Error saving tutor:', error);
     }
   };
 
@@ -84,17 +107,53 @@ const AdminTutor = ({ navigation }) => {
           renderItem={({ item }) => (
             <ListItem bottomDivider>
               <Icon name="user" type="font-awesome" />
-              <ListItem.Content>
-                <ListItem.Title>{item.gkuser.first_name} {item.gkuser.last_name}</ListItem.Title>
-                <ListItem.Subtitle>Email: {item.gkuser.email}</ListItem.Subtitle>
-                <ListItem.Subtitle>Address: {item.gkuser.address}</ListItem.Subtitle>
-                <ListItem.Subtitle>Contact Number: {item.gkuser.contact_number}</ListItem.Subtitle>
-                <ListItem.Subtitle>Program Area: {item.area}</ListItem.Subtitle>
-                <ListItem.Subtitle>Degree: {item.degree}</ListItem.Subtitle>
-                <ListItem.Subtitle>GPA: {item.gpa}</ListItem.Subtitle>
-                <ListItem.Subtitle>Institution Name: {item.instiuteName}</ListItem.Subtitle>
-              </ListItem.Content>
+              {editingTutorId === item.id ? (
+                <View style={styles.editingContainer}>
+                  <Input
+                    label="Program Area"
+                    value={editedTutor.area}
+                    onChangeText={(text) => setEditedTutor({...editedTutor, area: text})}
+                  />
+                  <Input
+                    label="Degree"
+                    value={editedTutor.degree}
+                    onChangeText={(text) => setEditedTutor({...editedTutor, degree: text})}
+                  />
+                  <Input
+                    label="GPA"
+                    value={editedTutor.gpa}
+                    onChangeText={(text) => setEditedTutor({...editedTutor, gpa: text})}
+                  />
+                  <Input
+                    label="Institution Name"
+                    value={editedTutor.instiuteName}
+                    onChangeText={(text) => setEditedTutor({...editedTutor, instiuteName: text})}
+                  />
+                  <Button
+                    title="Save"
+                    onPress={handleSaveTutor}
+                  />
+                </View>
+              ) : (
+                <ListItem.Content>
+                  <ListItem.Title>{item.gkuser.first_name} {item.gkuser.last_name}</ListItem.Title>
+                  <ListItem.Subtitle>Email: {item.gkuser.email}</ListItem.Subtitle>
+                  <ListItem.Subtitle>Address: {item.gkuser.address}</ListItem.Subtitle>
+                  <ListItem.Subtitle>Contact Number: {item.gkuser.contact_number}</ListItem.Subtitle>
+                  <ListItem.Subtitle>Program Area: {item.area}</ListItem.Subtitle>
+                  <ListItem.Subtitle>Degree: {item.degree}</ListItem.Subtitle>
+                  <ListItem.Subtitle>GPA: {item.gpa}</ListItem.Subtitle>
+                  <ListItem.Subtitle>Institution Name: {item.instiuteName}</ListItem.Subtitle>
+                </ListItem.Content>
+              )}
               <View style={styles.actionButtons}>
+                {!editingTutorId && (
+                  <Button
+                    icon={<Icon name="edit" type="font-awesome" color="#fff" />}
+                    buttonStyle={styles.editButton}
+                    onPress={() => handleEditTutor(item.id)}
+                  />
+                )}
                 <Button
                   icon={<Icon name="trash" type="font-awesome" color="#fff" />}
                   buttonStyle={styles.deleteButton}
@@ -150,9 +209,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginRight: 10,
   },
+  editButton: {
+    backgroundColor: '#4CAF50',
+    marginRight: 5,
+  },
   deleteButton: {
     backgroundColor: '#F44336',
   },
+  editingContainer: {
+    flex: 1,
+  }
 });
 
 export default AdminTutor;

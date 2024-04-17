@@ -48,9 +48,14 @@ const StudentRegister = (props) => {
     }
   };
   
-  const registerStudent = () => {
-    console.log("Registering student...");
-    console.log("Image state:", image);
+  const registerStudent = async () => {
+   
+    const existingUser = await checkIfEmailExists(email);
+    if (existingUser) {
+        // Display error message to the user
+        setError('Email address already exists');
+        return;
+    }
   
     if (
       firstName === "" ||
