@@ -1,14 +1,9 @@
-<<<<<<< HEAD
-import React from 'react';
-import { View, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
-// import { WebView } from 'react-native-webview';
-=======
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AdminTutor from './AdminTutor';
 import AdminUser from './AdminUser';
->>>>>>> Admin
+
 
 const AdminScreen = ({ navigation }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -26,12 +21,6 @@ const AdminScreen = ({ navigation }) => {
   };
 
   return (
-<<<<<<< HEAD
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" />
-      {/* <WebView source={{ uri: adminPanelUrl }} /> */}
-    </SafeAreaView>
-=======
     <View style={styles.container}>
       {sidebarOpen && (
         <View style={styles.sidebar}>
@@ -54,7 +43,6 @@ const AdminScreen = ({ navigation }) => {
         <Text style={styles.text}>Welcome to the admin panel dashboard!</Text>
       </View>
     </View>
->>>>>>> Admin
   );
 };
 
