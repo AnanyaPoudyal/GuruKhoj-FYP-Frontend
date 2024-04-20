@@ -41,10 +41,6 @@ const Login = (props) => {
             }
             console.log("Login successful. Token:", userId);
           }
-          //const token = response.data.token; // Assuming the token is returned in the response
-          // You can store the token in AsyncStorage or some other local storage mechanism
-          // Redirect to the authenticated screen or perform any other actions
-          //await AsyncStorage.setItem('@auth', JSON.stringify(token));
         })
         .catch((error) => {
           setError("Invalid email or password");

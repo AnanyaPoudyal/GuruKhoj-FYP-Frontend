@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import baseURL from '../../assets/common/baseUrl';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import StarRating from 'react-native-stars';
 
 const Feedback = ({ route }) => {
     const { userId } = route.params;

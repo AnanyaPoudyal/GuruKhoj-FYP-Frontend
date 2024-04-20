@@ -98,7 +98,7 @@ const AdminTutor = ({ navigation }) => {
       )}
       <View style={styles.content}>
         <TouchableOpacity onPress={handleToggleSidebar}>
-          <Text style={styles.toggleButton}>{sidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}</Text>
+          <Text style={styles.toggleButton}>{sidebarOpen ? '=' : '='}</Text>
         </TouchableOpacity>
         <Text style={styles.title}>Admin Panel Tutor</Text>
         <FlatList

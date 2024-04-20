@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import AdminTutor from './AdminTutor';
-import AdminUser from './AdminUser';
+import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 const AdminScreen = ({ navigation }) => {
@@ -18,6 +17,13 @@ const AdminScreen = ({ navigation }) => {
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
+  };
+
+  const handleLogout = async () => {
+    // Clear authentication token from AsyncStorage
+    await AsyncStorage.removeItem('AccessToken');
+    // Navigate user to the login screen
+    navigation.navigate("Login");
   };
 
   return (
@@ -37,11 +43,12 @@ const AdminScreen = ({ navigation }) => {
       )}
       <View style={styles.content}>
         <TouchableOpacity onPress={toggleSidebar}>
-          <Text style={styles.toggleButton}>{sidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}</Text>
+          <Text style={styles.toggleButton}>{sidebarOpen ? '=' : '='}</Text>
         </TouchableOpacity>
         <Text style={styles.title}>Admin Panel Dashboard</Text>
         <Text style={styles.text}>Welcome to the admin panel dashboard!</Text>
       </View>
+      <Button  title="Logout" onPress={handleLogout}  />
     </View>
   );
 };
