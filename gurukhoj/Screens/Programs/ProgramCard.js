@@ -26,11 +26,7 @@ const ProgramCard = (props) => {
             </Text>
             <Text styles={styles.gkprogramPrice}>${gkprogramPrice}</Text>
 
-            {/* { countInStock > 0 ? (
-                <View style = {{ marginBottom: 60 }}> 
-                    <Button title={'Add'} color={'green'} />
-                </View>
-            ) : <Text style = {{ marginTop: 20 }}> Currently Unavailbale</Text> } */}
+            
 
         </View>
     )

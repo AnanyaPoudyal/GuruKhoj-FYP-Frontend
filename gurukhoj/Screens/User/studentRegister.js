@@ -50,12 +50,12 @@ const StudentRegister = (props) => {
   
   const registerStudent = async () => {
    
-    const existingUser = await checkIfEmailExists(email);
-    if (existingUser) {
-        // Display error message to the user
-        setError('Email address already exists');
-        return;
-    }
+    // const existingUser = await checkIfEmailExists(email);
+    // if (existingUser) {
+    //     // Display error message to the user
+    //     setError('Email address already exists');
+    //     return;
+    // }
   
     if (
       firstName === "" ||

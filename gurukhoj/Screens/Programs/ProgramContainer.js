@@ -37,7 +37,6 @@ const ProgramContainer = (props) => {
 
     return (
         <View>
-            <Text>Home</Text>
             <View style={{ marginTop: 10 }}>
                 {/* Horizontal FlatList to render the list of program areas */}
                 <FlatList
@@ -77,17 +76,34 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         marginHorizontal: 5,
         borderRadius: 20,
-        backgroundColor: 'gainsboro',
+        backgroundColor: 'white', 
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     selectedArea: {
         paddingVertical: 10,
         paddingHorizontal: 20,
         marginHorizontal: 5,
         borderRadius: 20,
-        backgroundColor: 'skyblue',
+        backgroundColor: '#FF6F61', 
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     areaText: {
         fontWeight: 'bold',
+        color: '#333', 
     },
 });
 
