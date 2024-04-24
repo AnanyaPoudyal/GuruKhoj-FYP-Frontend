@@ -5,6 +5,7 @@ import Icon from "react-native-vector-icons/FontAwesome"
 import AdminScreen from "../Screens/Admin/AdminScreen";
 import AdminTutor from "../Screens/Admin/AdminTutor";
 import AdminUser from "../Screens/Admin/AdminUser";
+import AdminProgram from "../Screens/Admin/AdminProgram";
 const Tab = createBottomTabNavigator();
 
 //Stack
@@ -39,7 +40,7 @@ const AdminNavigation = () => {
                 options={{
                     tabBarIcon: ({ color }) => (
                         <Icon
-                        name="shopping-cart"
+                        name="user"
                         style={{ position: "relative"}}
                         color={color}
                         size={30}
@@ -54,7 +55,22 @@ const AdminNavigation = () => {
                 options={{
                     tabBarIcon: ({ color }) => (
                         <Icon
-                        name="shopping-cart"
+                        name="edit"
+                        style={{ position: "relative"}}
+                        color={color}
+                        size={30}
+                        />
+                    ),
+                    headerShown: false
+                }}
+            />  
+            <Tab.Screen
+                name="AdminProgram"
+                component={AdminProgram}
+                options={{
+                    tabBarIcon: ({ color }) => (
+                        <Icon
+                        name="book"
                         style={{ position: "relative"}}
                         color={color}
                         size={30}
