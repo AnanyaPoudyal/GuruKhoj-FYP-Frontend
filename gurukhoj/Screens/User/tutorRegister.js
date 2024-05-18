@@ -49,8 +49,6 @@ const TutorRegister = (props) => {
   };
   
   const registerStudent = async () => {
-
-
     if (
       firstName === "" ||
       lastName === "" ||
