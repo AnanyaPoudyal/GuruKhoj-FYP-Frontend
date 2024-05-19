@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+
 import FormContainer from "../Shared/Form/FormContainer";
 import Input from "../Shared/Form/Input";
 import Error from "../Shared/Error";
-import Toast from "react-native-toast-message";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import EasyButton from "../Shared/EasyButton";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -18,9 +18,10 @@ const TutorProgram = (props) => {
   const [gkprogramEndTime, setGkprogramEndTime] = useState("");
   const [gkprogramPrice, setGkprogramPrice] = useState("");
   const [gkprogramStudentCapacity, setGkprogramStudentCapacity] = useState("");
-  const [gkprogramHomeTution, setGkprogramHomeTution] = useState("");
+  const [gkprogramHomeTution, setGkprogramHomeTution] = useState(null);
   const [gkuser, setGkuser] = useState("");
   const [error, setError] = useState("");
+
 
   const postProgram = async () => {
     const userId = await AsyncStorage.getItem('UserId');
@@ -65,23 +66,20 @@ const TutorProgram = (props) => {
       });
 
       if (res.status === 200) {
-        Toast.show({
-          topOffset: 60,
-          type: "success",
-          text1: "Program Created",
-          text2: "Please login to your account",
-        });
-        setTimeout(() => {
-          props.navigation.navigate("TutorHome");
-        }, 500);
+        Alert.alert(
+          "Program Created",
+          "The program has been added successfully",
+          [
+            {
+              text: "OK",
+              onPress: () => {
+              }
+            }
+          ]
+        );
       }
     } catch (error) {
-      Toast.show({
-        topOffset: 60,
-        type: "error",
-        text1: "Something went wrong",
-        text2: "Please try again",
-      });
+      setError("Something went wrong. Please try again.");
       console.error("Error creating program:", error);
     }
   };
@@ -139,15 +137,35 @@ const TutorProgram = (props) => {
             keyboardType={"numeric"}
             onChangeText={(text) => setGkprogramStudentCapacity(text)}
           />
-          <Input
-            placeholder={"Home Tutiton"}
-            name={"gkprogramHomeTution"}
-            id={"gkprogramHomeTution"}
-            onChangeText={(text) => setGkprogramHomeTution(text)}
-          />
+          {/* Radio button group */}
+          <View style={styles.radioGroupContainer}>
+            <Text style={styles.radioGroupLabel}>Home Tuition</Text>
+            <View style={styles.radioButtons}>
+              <TouchableOpacity
+                style={[
+                  styles.radioButton,
+                  gkprogramHomeTution === true && styles.selectedRadioButton
+                ]}
+                onPress={() => setGkprogramHomeTution(true)}
+              >
+                <Text style={styles.radioButtonText}>Yes</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.radioButton,
+                  gkprogramHomeTution === false && styles.selectedRadioButton
+                ]}
+                onPress={() => setGkprogramHomeTution(false)}
+              >
+                <Text style={styles.radioButtonText}>No</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          {/* Error message */}
           <View style={styles.buttonGroup}>
             {error ? <Error message={error} /> : null}
           </View>
+          {/* Post button */}
           <View>
             <EasyButton large secondary onPress={() => postProgram()}>
               <Text style={{ color: "white" }}>Post</Text>
@@ -181,6 +199,36 @@ const styles = StyleSheet.create({
     width: "80%",
     margin: 10,
     alignItems: "center",
+  },
+  radioGroupContainer: {
+    width: "80%",
+    marginVertical: 10,
+    alignItems: "center",
+  },
+  radioGroupLabel: {
+    marginBottom: 5,
+    fontSize: 18,
+    fontWeight: '500',
+  },
+  radioButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+  },
+  radioButton: {
+    borderWidth: 1,
+    borderColor: '#4DBFFF',
+    borderRadius: 20,
+    padding: 10,
+    width: 100,
+    alignItems: 'center',
+  },
+  selectedRadioButton: {
+    backgroundColor: '#4DBFFF',
+  },
+  radioButtonText: {
+    fontSize: 16,
+    color: 'black',
   },
 });
 
