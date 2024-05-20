@@ -106,61 +106,61 @@ const AdminTutor = ({ navigation }) => {
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
             <ListItem bottomDivider>
-              <Icon name="user" type="font-awesome" />
-              {editingTutorId === item.id ? (
-                <View style={styles.editingContainer}>
-                  <Input
-                    label="Program Area"
-                    value={editedTutor.area}
-                    onChangeText={(text) => setEditedTutor({...editedTutor, area: text})}
-                  />
-                  <Input
-                    label="Degree"
-                    value={editedTutor.degree}
-                    onChangeText={(text) => setEditedTutor({...editedTutor, degree: text})}
-                  />
-                  <Input
-                    label="GPA"
-                    value={editedTutor.gpa}
-                    onChangeText={(text) => setEditedTutor({...editedTutor, gpa: text})}
-                  />
-                  <Input
-                    label="Institution Name"
-                    value={editedTutor.instiuteName}
-                    onChangeText={(text) => setEditedTutor({...editedTutor, instiuteName: text})}
-                  />
-                  <Button
-                    title="Save"
-                    onPress={handleSaveTutor}
-                  />
-                </View>
-              ) : (
-                <ListItem.Content>
-                  <ListItem.Title>{item.gkuser.first_name} {item.gkuser.last_name}</ListItem.Title>
-                  <ListItem.Subtitle>Email: {item.gkuser.email}</ListItem.Subtitle>
-                  <ListItem.Subtitle>Address: {item.gkuser.address}</ListItem.Subtitle>
-                  <ListItem.Subtitle>Contact Number: {item.gkuser.contact_number}</ListItem.Subtitle>
-                  <ListItem.Subtitle>Program Area: {item.area}</ListItem.Subtitle>
-                  <ListItem.Subtitle>Degree: {item.degree}</ListItem.Subtitle>
-                  <ListItem.Subtitle>GPA: {item.gpa}</ListItem.Subtitle>
-                  <ListItem.Subtitle>Institution Name: {item.instiuteName}</ListItem.Subtitle>
-                </ListItem.Content>
-              )}
-              <View style={styles.actionButtons}>
-                {!editingTutorId && (
-                  <Button
-                    icon={<Icon name="edit" type="font-awesome" color="#fff" />}
-                    buttonStyle={styles.editButton}
-                    onPress={() => handleEditTutor(item.id)}
-                  />
-                )}
+            <Icon name="user" type="font-awesome" />
+            {editingTutorId === item.id ? (
+              <View style={styles.editingContainer}>
+                <Input
+                  label="Program Area"
+                  value={editedTutor.area}
+                  onChangeText={(text) => setEditedTutor({...editedTutor, area: text})}
+                />
+                <Input
+                  label="Degree"
+                  value={editedTutor.degree}
+                  onChangeText={(text) => setEditedTutor({...editedTutor, degree: text})}
+                />
+                <Input
+                  label="GPA"
+                  value={editedTutor.gpa}
+                  onChangeText={(text) => setEditedTutor({...editedTutor, gpa: text})}
+                />
+                <Input
+                  label="Institution Name"
+                  value={editedTutor.instiuteName}
+                  onChangeText={(text) => setEditedTutor({...editedTutor, instiuteName: text})}
+                />
                 <Button
-                  icon={<Icon name="trash" type="font-awesome" color="#fff" />}
-                  buttonStyle={styles.deleteButton}
-                  onPress={() => confirmDeleteTutor(item.id)}
+                  title="Save"
+                  onPress={handleSaveTutor}
                 />
               </View>
-            </ListItem>
+            ) : (
+              <ListItem.Content>
+                <ListItem.Title>{item.gkuser?.first_name || 'Not available'} {item.gkuser?.last_name || ''}</ListItem.Title>
+                <ListItem.Subtitle>Email: {item.gkuser?.email || 'Not available'}</ListItem.Subtitle>
+                <ListItem.Subtitle>Address: {item.gkuser?.address || 'Not available'}</ListItem.Subtitle>
+                <ListItem.Subtitle>Contact Number: {item.gkuser?.contact_number || 'Not available'}</ListItem.Subtitle>
+                <ListItem.Subtitle>Program Area: {item.area}</ListItem.Subtitle>
+                <ListItem.Subtitle>Degree: {item.degree}</ListItem.Subtitle>
+                <ListItem.Subtitle>GPA: {item.gpa}</ListItem.Subtitle>
+                <ListItem.Subtitle>Institution Name: {item.instiuteName}</ListItem.Subtitle>
+              </ListItem.Content>
+            )}
+            <View style={styles.actionButtons}>
+              {!editingTutorId && (
+                <Button
+                  icon={<Icon name="edit" type="font-awesome" color="#fff" />}
+                  buttonStyle={styles.editButton}
+                  onPress={() => handleEditTutor(item.id)}
+                />
+              )}
+              <Button
+                icon={<Icon name="trash" type="font-awesome" color="#fff" />}
+                buttonStyle={styles.deleteButton}
+                onPress={() => confirmDeleteTutor(item.id)}
+              />
+            </View>
+          </ListItem>          
           )}
         />
       </View>
