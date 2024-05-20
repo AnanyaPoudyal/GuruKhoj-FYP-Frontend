@@ -10,6 +10,7 @@ import UserNavigator from "./UserNavigator";
 import SearchScreen from "../Screens/User/SearchScreen";
 import UserScreen from "../Screens/User/UserContainer";
 import SearchNavigator from "./SearchNavigator";
+import TutorHome from "./TutorHome";
 
 const Main = () => {
     return (
@@ -36,7 +37,7 @@ const Main = () => {
             />
             <Tab.Screen
                 name="Cart"
-                component={HomeNavigator}
+                component={TutorHome}
                 options={{
                     tabBarIcon: ({ color }) => (
                         <Icon
