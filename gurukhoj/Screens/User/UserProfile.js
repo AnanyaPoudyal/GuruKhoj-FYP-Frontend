@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList } from 'react-native';
 import axios from 'axios';
 import baseURL from "../../assets/common/baseUrl";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -7,42 +7,61 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const UserProfile = ({ navigation, route }) => {
   const { userId } = route.params;
   const [userData, setUserData] = useState(null);
+  const [feedbacks, setFeedbacks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-        try {
-          const token = await AsyncStorage.getItem('AccessToken');
-          const response = await axios.get(`${baseURL}gkusers/${userId}`, {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
-      
-          if (response.status !== 200) {
-            throw new Error('Failed to fetch user data');
+      try {
+        const token = await AsyncStorage.getItem('AccessToken');
+        const response = await axios.get(`${baseURL}gkusers/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
           }
-      
-          const data = response.data.data;
-          setUserData(data);
-          setLoading(false);
-        } catch (error) {
-          console.error('Error fetching user profile:', error);
-          setError(error.message);
-          setLoading(false);
+        });
+
+        if (response.status !== 200) {
+          throw new Error('Failed to fetch user data');
         }
-      };
+
+        const data = response.data.data;
+        setUserData(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    const fetchUserFeedbacks = async () => {
+      try {
+        const token = await AsyncStorage.getItem('AccessToken');
+        const response = await axios.get(`${baseURL}gkfeedbacks/user/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        if (response.status !== 200) {
+          throw new Error('Failed to fetch user feedbacks');
+        }
+
+        const data = response.data.data;
+        setFeedbacks(data);
+      } catch (error) {
+        console.error('Error fetching user feedbacks:', error);
+        setError(error.message);
+      }
+    };
 
     fetchUserProfile();
+    fetchUserFeedbacks();
   }, [userId]);
 
   const handleFeedbackPress = () => {
     navigation.navigate('Feedback', { userId });
-  };
-
-  const handleReviewPress = () => {
-    navigation.navigate('Review', { userId });
   };
 
   if (loading) {
@@ -88,11 +107,20 @@ const UserProfile = ({ navigation, route }) => {
             <Text style={styles.info}>{userData.address}</Text>
           </View>
           <TouchableOpacity style={styles.button} onPress={handleFeedbackPress}>
-            <Text style={styles.buttonText}>Give Feedback</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={handleReviewPress}>
             <Text style={styles.buttonText}>Rate and Review</Text>
           </TouchableOpacity>
+
+          <Text style={styles.subTitle}>Feedbacks</Text>
+          <FlatList
+            data={feedbacks}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => (
+              <View style={styles.feedbackContainer}>
+                <Text style={styles.feedbackText}>{item.feedback}</Text>
+                <Text style={styles.feedbackStars}>Stars: {item.stars}</Text>
+              </View>
+            )}
+          />
         </>
       )}
     </View>
@@ -111,6 +139,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+  },
+  subTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginBottom: 10,
   },
   userInfoContainer: {
     flexDirection: 'row',
@@ -145,6 +179,31 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  feedbackContainer: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 15,
+    padding: 15,
+    marginBottom: 10,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  feedbackText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  feedbackStars: {
+    fontSize: 14,
+    color: '#4DBFFF',
+    marginTop: 5,
+  },
 });
 
 export default UserProfile;
+
+

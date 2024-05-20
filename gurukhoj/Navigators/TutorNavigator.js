@@ -16,13 +16,7 @@ function MyStack() {
                     headerShown: false,
                 }}
             />
-            <Stack.Screen
-                name="Program Details"
-                component={SingleProgram}
-                options={{
-                    headerShown: false,
-                }}
-            />
+
         </Stack.Navigator>
     )
 }
