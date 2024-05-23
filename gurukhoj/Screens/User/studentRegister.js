@@ -103,14 +103,19 @@ formData.append("gkrole", "65e3bd5b0a60f1a2749db7ae");
         }
       })
       .catch((error) => {
+        if (error.response && error.response.data) {
+          setError(error.response.data);
+        } else {
+          setError('Something went wrong. Please try again.');
+        }
         Toast.show({
           topOffset: 60,
           type: "error",
-          text1: "Something went wrong",
+          text1: "Registration Failed",
           text2: "Please try again",
         });
       });
-  };
+};
 
   return (
     <KeyboardAwareScrollView
