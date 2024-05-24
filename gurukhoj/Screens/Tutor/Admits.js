@@ -46,38 +46,6 @@ const AdmitsScreen = () => {
         fetchData();
     }, []);
 
-    // // Function to handle status edit
-    // const handleEditStatus = async (id) => {
-    //     try {
-    //         // Get the token from AsyncStorage
-    //         const token = await AsyncStorage.getItem('AccessToken');
-    //         if (!token) {
-    //             throw new Error('Access token not found');
-    //         }
-
-    //         // Make API call to update the status
-    //         const response = await axios.put(`${baseURL}gkadmits/${id}`, {
-    //             gkstatus: 'Enrolled',
-    //         }, {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //             },
-    //         });
-
-    //         // Update the enrollments state with the updated data
-    //         setEnrollments(enrollments.map(item =>
-    //             item.id === id ? { ...item, gkstatus: 'Enrolled' } : item
-    //         ));
-
-    //         // Display success message
-    //         Alert.alert('Success', 'Status updated successfully');
-    //     } catch (error) {
-    //         console.error('Error editing status:', error.message);
-    //         // Display error message
-    //         Alert.alert('Error', 'Failed to update status. Please try again.');
-    //     }
-    // };
-
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Enrollments</Text>
@@ -87,7 +55,7 @@ const AdmitsScreen = () => {
                 renderItem={({ item }) => (
                     <View style={styles.enrollment}>
                         <Text style={styles.userInfo}>User: {item.gkuser ? `${item.gkuser.first_name} ${item.gkuser.last_name}` : 'Not available'}</Text>
-                        <Text style={styles.userInfo}>Program: {item.gkprogram ? item.gkprogram.gkprogramArea : 'Not available'}</Text>
+                        <Text style={styles.userInfo}>Program: {item.gkprogram ? item.gkprogram.gkprogramSubject : 'Not available'}</Text>
                         <Text style={styles.userInfo}>Status: {item.gkstatus}</Text>
 
                     </View>

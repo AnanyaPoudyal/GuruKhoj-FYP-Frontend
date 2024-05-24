@@ -42,7 +42,7 @@ const SingleProgram = (props) => {
             const token = await AsyncStorage.getItem('AccessToken');
             // Make API call to enroll in the program
             const response = await axios.post(`${baseURL}gkadmits/`, {
-                gkstatus: 'waiting',
+                gkstatus: 'Booked',
                 gkuser: userId,
                 gkprogram: item._id,
             }, {
