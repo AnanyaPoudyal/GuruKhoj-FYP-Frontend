@@ -12,27 +12,27 @@ const Tutor = ({ navigation }) => {
 
   async function getAllData() {
     try {
-        const token = await AsyncStorage.getItem('AccessToken');
-        const response = await axios.get(`${baseURL}gkusers/`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        console.log(response);
-        const tutorUsers = response.data.filter(user => user.gkrole.gkUserRole === 'Tutor');
-        setAllUser(tutorUsers);
-        setFilteredUser(tutorUsers);
+      const token = await AsyncStorage.getItem('AccessToken');
+      const response = await axios.get(`${baseURL}gkusers/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response);
+      const tutorUsers = response.data.filter(user => user.gkrole.gkUserRole === 'Tutor');
+      setAllUser(tutorUsers);
+      setFilteredUser(tutorUsers);
     } catch (error) {
-        console.error('Error fetching user data:', error);
+      console.error('Error fetching user data:', error);
     }
-}
+  }
 
   useEffect(() => {
     getAllData();
   }, []);
 
   const handleProfilePress = userId => {
-    navigation.navigate('UserProfile', { userId  });
+    navigation.navigate('UserProfile', { userId });
   };
 
   const applyFilters = () => {
@@ -54,11 +54,11 @@ const Tutor = ({ navigation }) => {
     setFilteredUser(filtered);
   };
 
-  const UserCard = ({data}) => (
+  const UserCard = ({ data }) => (
     <TouchableOpacity onPress={() => handleProfilePress(data._id)}>
       <View style={styles.cardContainer}>
         <Image
-          source={{ uri: data.photo || "https://m.media-amazon.com/images/I/8179uEK+gcL._AC_UF1000,1000_QL80_.jpg"}}
+          source={{ uri: data.photo || "https://m.media-amazon.com/images/I/8179uEK+gcL._AC_UF1000,1000_QL80_.jpg" }}
           style={styles.userPhoto}
           onError={(error) => console.error('Error loading image:', error)}
         />
